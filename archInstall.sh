@@ -5,22 +5,24 @@ timedatectl set-ntp true
 echo "Connect to the Internet!"
 iwctl \
 station wlan0 get-networks
-
+nmtui
 echo -n "Hostname: "
-read hostname
-
+read $hostname
 echo -n "User"
-read user
+read $user
 echo -n "User Password"
-echo -s userPassword
+read -s $userPassword
+echo
 echo -n "Repeat the User Password"
-echo -s userPassword2
+read -s $userPassword2
 [[ "$userPassword" == "$userPassword2" ]] || (echo "Passwords did not match"; exit 1)
-
+echo
 echo -n "Root Password: "
 read -s password
+echo
 echo -n "Repeat the Root Password: "
 read -s password2
+echo
 [[ "$password" == "$password2" ]] || (echo "Passwords did not match"; exit 1)
 
 # -----------------------
