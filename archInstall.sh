@@ -88,5 +88,5 @@ read
 arch-chroot /mnt useradd -m -G wheel "$user"
 arch-chroot /mnt bash -c 'echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers'
 
-echo "$user:$userPassword" | chpasswd --root /mnt
-echo "root:$password" | chpasswd --root /mnt
+echo "$user:$userPassword" | chpasswd --root /
+echo "root:$password" | chpasswd --root /
