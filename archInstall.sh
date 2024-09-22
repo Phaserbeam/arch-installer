@@ -1,3 +1,4 @@
+
 timedatectl set-ntp true
 
 echo "Connect to the Internet!"
@@ -6,12 +7,12 @@ station wlan0 get-networks
 nmtui
 echo -n "Hostname: "
 read $hostname
-echo -n "User"
+echo -n "User: "
 read $user
-echo -n "User Password"
+echo -n "User Password: "
 read -s $userPassword
 echo
-echo -n "Repeat the User Password"
+echo -n "Repeat the User Password:"
 read -s $userPassword2
 [[ "$userPassword" == "$userPassword2" ]] || (echo "Passwords did not match"; exit 1)
 echo
@@ -80,7 +81,7 @@ EOF
 # -------------
 # ADD USERS
 # -------------
-useradd -m -G wheel "$user"
+arch-chroot /mnt useradd -m -G wheel "$user"
 echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
-echo "$user:$userPassword" | chpasswd
-echo "root:$password" | chpasswd
+echo "$user:$userPassword" | chpasswd --root /mnt
+echo "root:$password" | chpasswd --root /mnt
