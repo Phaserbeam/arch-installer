@@ -33,7 +33,7 @@ echo ${device}
 
 cfdisk ${device}
 
-options=$(lsblk /dev/nvme0n1 -pln -o NAME,SIZE)
+options=$(lsblk ${device} -pln -o NAME,SIZE)
 rootPart=$(dialog --stdout --menu "Select the Root Partition" 0 0 0 ${options}) || exit 1
 homePart=$(dialog --stdout --menu "Select the Home Partition" 0 0 0 ${options}) || exit 1
 bootPart=$(dialog --stdout --menu "Select the Boot Partition" 0 0 0 ${options}) || exit 1
