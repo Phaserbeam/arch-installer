@@ -80,12 +80,9 @@ EOF'
 # -------------
 # ADD USERS
 # -------------
-echo "ADDING USERS"
-echo "$password"
-echo "$user"
-echo "$userPassword"
+echo "Add User"
 read
-arch-chroot /mnt useradd -m -G wheel "$user"
+arch-chroot /mnt useradd -mU -G wheel "$user"
 arch-chroot /mnt bash -c 'echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers'
 
 echo "$user:$userPassword" | chpasswd --root /
