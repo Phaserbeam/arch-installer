@@ -1,6 +1,6 @@
 
+pacman -Sy dialog
 timedatectl set-ntp true
-
 echo "Connect to the Internet!"
 iwctl \
 station wlan0 get-networks
@@ -34,9 +34,9 @@ echo ${device}
 cfdisk ${device}
 
 options=$(lsblk ${device} -pln -o NAME,SIZE)
+bootPart=$(dialog --stdout --menu "Select the Boot Partition" 0 0 0 ${options}) || exit 1
 rootPart=$(dialog --stdout --menu "Select the Root Partition" 0 0 0 ${options}) || exit 1
 homePart=$(dialog --stdout --menu "Select the Home Partition" 0 0 0 ${options}) || exit 1
-bootPart=$(dialog --stdout --menu "Select the Boot Partition" 0 0 0 ${options}) || exit 1
 
 echo "Root Partition: " $rootPart
 echo "Home Partition: " $homePart
@@ -62,7 +62,7 @@ arch-chroot /mnt hwclock --systohc
 # ----------------------
 # INSTALL THE BOOTLOADER
 # ----------------------
-bootctl install
+arch-chroot /mnt bootctl install
 arch-chroot /mnt bash -c 'cat <<EOF > /boot/loader/loader.conf
 default arch
 timeout 3
@@ -81,7 +81,14 @@ EOF'
 # ADD USERS
 # -------------
 echo "ADDING USERS"
+echo "$password"
+echo "$user"
+echo "$userPassword"
+read
 arch-chroot /mnt useradd -m -G wheel "$user"
 arch-chroot /mnt bash -c 'echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers'
 arch-chroot /mnt bash -c 'echo "$user:$userPassword" | chpasswd --root /mnt'
 arch-chroot /mnt bash -c 'echo "root:$password" | chpasswd --root /mnt'
+
+echo "$user:$userPassword" | chpasswd --root /mnt
+echo "root:$password" | chpasswd --root /mnt
