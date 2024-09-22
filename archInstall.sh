@@ -61,26 +61,27 @@ arch-chroot /mnt hwclock --systohc
 
 # ----------------------
 # INSTALL THE BOOTLOADER
-#bootctl install
-#cat <<EOF > /boot/loader/loader.conf
-#default arch
-#timeout 3
-#EOF
-#
-#cat <<EOF > /boot/loader/entries/arch.conf
-#title Arch linux
-#linux /vmlinuz-linux
-#initrd /initramfs-linux.img
-#options root=UUID=$(blkid -s UUID -o value "$rootPart") rw
-#EOF
-## ---------------------
-#
-#
-## -------------
-## ADD USERS
-## -------------
-#arch-chroot /mnt useradd -m -G wheel "$user"
-#echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
-#echo "$user:$userPassword" | chpasswd --root /mnt
-#echo "root:$password" | chpasswd --root /mnt
-#
+# ----------------------
+bootctl install
+arch-chroot /mnt bash -c 'cat <<EOF > /boot/loader/loader.conf
+default arch
+timeout 3
+EOF'
+
+arch-chroot /mnt bash -c 'cat <<EOF > /boot/loader/entries/arch.conf
+title Arch linux
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+options root=UUID=$(blkid -s UUID -o value "$rootPart") rw
+EOF'
+# ---------------------
+
+
+# -------------
+# ADD USERS
+# -------------
+echo "ADDING USERS"
+arch-chroot /mnt useradd -m -G wheel "$user"
+arch-chroot /mnt bash -c 'echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers'
+arch-chroot /mnt bash -c 'echo "$user:$userPassword" | chpasswd --root /mnt'
+arch-chroot /mnt bash -c 'echo "root:$password" | chpasswd --root /mnt'
