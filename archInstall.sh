@@ -1,5 +1,5 @@
 
-pacman -Sy dialog
+pacman -Syk dialog
 timedatectl set-ntp true
 echo "Connect to the Internet!"
 iwctl \
@@ -87,8 +87,6 @@ echo "$userPassword"
 read
 arch-chroot /mnt useradd -m -G wheel "$user"
 arch-chroot /mnt bash -c 'echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers'
-arch-chroot /mnt bash -c 'echo "$user:$userPassword" | chpasswd --root /mnt'
-arch-chroot /mnt bash -c 'echo "root:$password" | chpasswd --root /mnt'
 
 echo "$user:$userPassword" | chpasswd --root /mnt
 echo "root:$password" | chpasswd --root /mnt
