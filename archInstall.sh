@@ -63,25 +63,26 @@ hwclock --systohc
 
 # ----------------------
 # INSTALL THE BOOTLOADER
-bootctl install
-cat <<EOF > /boot/loader/loader.conf
-default arch
-timeout 3
-EOF
-
-cat <<EOF > /boot/loader/entries/arch.conf
-title Arch linux
-linux /vmlinuz-linux
-initrd /initramfs-linux.img
-options root=UUID=$(blkid -s UUID -o value "$rootPart") rw
-EOF
-# ---------------------
-
-
-# -------------
-# ADD USERS
-# -------------
-arch-chroot /mnt useradd -m -G wheel "$user"
-echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
-echo "$user:$userPassword" | chpasswd --root /mnt
-echo "root:$password" | chpasswd --root /mnt
+#bootctl install
+#cat <<EOF > /boot/loader/loader.conf
+#default arch
+#timeout 3
+#EOF
+#
+#cat <<EOF > /boot/loader/entries/arch.conf
+#title Arch linux
+#linux /vmlinuz-linux
+#initrd /initramfs-linux.img
+#options root=UUID=$(blkid -s UUID -o value "$rootPart") rw
+#EOF
+## ---------------------
+#
+#
+## -------------
+## ADD USERS
+## -------------
+#arch-chroot /mnt useradd -m -G wheel "$user"
+#echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
+#echo "$user:$userPassword" | chpasswd --root /mnt
+#echo "root:$password" | chpasswd --root /mnt
+#
