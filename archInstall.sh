@@ -52,14 +52,12 @@ mount $bootPart /mnt/boot --mkdir
 pacstrap -K /mnt linux linux-firmware base base-devel networkmanager intel-ucode vim git
 genfstab -U /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt
-
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo "${hostname}" > /etc/hostname
-ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
-hwclock --systohc
+arch-chroot /mnt bash -c 'echo "LANG=en_US.UTF-8" > /etc/locale.conf'
+arch-chroot /mnt bash -c 'echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen'
+arch-chroot /mnt bash -c 'locale-gen'
+arch-chroot /mnt bash -c 'echo "${hostname}" > /etc/hostname'
+arch-chroot /mnt bash -c 'ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime'
+arch-chroot /mnt hwclock --systohc
 
 # ----------------------
 # INSTALL THE BOOTLOADER
