@@ -1,5 +1,3 @@
-#! /bin/bash
-
 timedatectl set-ntp true
 
 echo "Connect to the Internet!"
